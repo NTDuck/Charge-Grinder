@@ -304,31 +304,31 @@ def main_loop():
             pause(e.window)
 
         if ck == False:
-            # check if start
-            for key in start_locations.keys():
+            # check if end (claim pending rewards before starting next run)
+            for key in end_locations.keys():
                 if now.button(key):
-                    dungeon_start()
-                    error = 0
-                    last_error = 0
-                    p.LVL = 1
-                    break
+                    if dungeon_end():
+                        logging.info('Run Completed')
+                        return True
+                    return False
             else:
-                # check if end
-                for key in end_locations.keys():
+                # check if start
+                for key in start_locations.keys():
                     if now.button(key):
-                        if dungeon_end():
-                            logging.info('Run Completed')
-                            return True
-                        return False
-
-                if last_error != 0:
-                    if time.time() - last_error > 30:
-                        # cv2.imwrite(f"error_{int(time.time())}.png", screenshot())
-                        handle_fuckup()
-                        error += 1
+                        dungeon_start()
+                        error = 0
+                        last_error = 0
+                        p.LVL = 1
+                        break
                 else:
-                    # cv2.imwrite(f"error_{int(time.time())}.png", screenshot())
-                    last_error = time.time()
+                    if last_error != 0:
+                        if time.time() - last_error > 30:
+                            # cv2.imwrite(f"error_{int(time.time())}.png", screenshot())
+                            handle_fuckup()
+                            error += 1
+                    else:
+                        # cv2.imwrite(f"error_{int(time.time())}.png", screenshot())
+                        last_error = time.time()
         else:
             last_error = 0
 

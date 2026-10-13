@@ -71,6 +71,9 @@ def _dump_verify_failure(tag, ver=None, state0=None):
     except Exception:
         pass
 
+dump_verify_failure = _dump_verify_failure
+expand_region = _expand_region
+
 def rectangle(image, point1, point2, color, type):
     comp = p.WINDOW[2] / 1920
     x1, y1 = point1

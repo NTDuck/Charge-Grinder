@@ -1,4 +1,5 @@
 from source.utils.utils import *
+from source.utils.utils import _dump_verify_failure
 from source.event import event
 import source.utils.params as p
 from itertools import product
@@ -237,7 +238,10 @@ def select_team():
             gui.scroll(-10)
             time.sleep(0.3)
     else:
-        _dump_verify_failure(tag=f"team_fail_{affinity}", ver=None)
+        try:
+            _dump_verify_failure(tag=f"team_fail_{affinity}", ver="teams")
+        except Exception:
+            pass
         logging.info(f"Team selecton failed! (idx={idx}, {len(coords)} candidates found)")
         return
     logging.info(f"Selected {p.TEAM[0]}")
